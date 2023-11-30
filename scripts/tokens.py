@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 from ape import project
 
-from scripts.addresses import *
+from scripts.constants import *
 
 
 def approve(token, _from, to: str, amount: str):

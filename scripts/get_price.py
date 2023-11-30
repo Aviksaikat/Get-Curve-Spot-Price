@@ -1,7 +1,7 @@
 from ape import project
 from ape.api.accounts import AccountAPI
 
-from scripts.addresses import CURVE_POOL_Address
+from scripts.constants import CURVE_POOL_Address
 from scripts.tokens import *
 from scripts.utils import get_real_amount_in
 
