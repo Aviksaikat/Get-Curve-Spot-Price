@@ -69,7 +69,7 @@ def curve_meta_pool(
 
     pool_contract = project.ICurvePool.at(token_pool_address)
 
-    return curve_swap_from_pool(pool_contract, tokens[0], tokens[1], real_amount_in)
+    return curve_swap_from_pool(pool_contract, account, tokens[0], tokens[1], real_amount_in)
 
 
 def get_curve_swap_price(account: AccountAPI, tokens: list, real_amount_in: int):
