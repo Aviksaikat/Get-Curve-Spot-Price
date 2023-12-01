@@ -67,7 +67,7 @@ def curve_meta_pool(
 
     logger.info(f"Got pool: {token_pool_address}")
 
-    pool_contract = project.ICurvePool.at(token_pool_address)
+    pool_contract = Contract(token_pool_address)
 
     return curve_swap_from_pool(pool_contract, account, tokens[0], tokens[1], real_amount_in)
 
@@ -75,10 +75,11 @@ def curve_meta_pool(
 def get_curve_swap_price(account: AccountAPI, tokens: list, real_amount_in: int):
     meta_pool = get_meta_registry()
     amounts_out = curve_meta_pool(meta_pool, account, tokens, real_amount_in)
+    output_token = project.IERC20.at(tokens[1])
 
     print(
         f"Tokens swapped {tokens[0]} -> {tokens[1]}: ",
-        amounts_out // (10 ** WETH.decimals()),
+        amounts_out // (10 ** output_token.decimals()),
     )
 
 
