@@ -6,7 +6,7 @@ interface ICurvePool {
 
     function add_liquidity(uint256[2] calldata amounts, uint256 deadline) external;
 
-    function get_dy(int128 i, int128 j, uint256 dx) external returns (uint256 out);
+    function get_dy(int128 i, int128 j, uint256 dx) external view returns (uint256 out);
 
     function get_dy_underlying(int128 i, int128 j, uint256 dx) external returns (uint256 out);
 
@@ -36,7 +36,7 @@ interface ICurvePool {
 
     function withdraw_admin_fees() external;
 
-    function coins(int128 arg0) external view returns (address out);
+    function coins(uint256 arg0) external view returns (address out);
 
     function underlying_coins(int128 arg0) external returns (address out);
 
