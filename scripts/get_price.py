@@ -4,6 +4,7 @@ from ape.api.accounts import AccountAPI
 from ape.contracts.base import ContractInstance
 from eth_utils import to_wei
 
+from scripts.colours import *
 from scripts.constants import CURVE_META_REGISTRY_ADDRESS
 from scripts.tokens import *
 from scripts.utils import get_real_amount_in, setup_account
@@ -33,7 +34,6 @@ def curve_swap_from_pool(
     token_out: str,
     amount: int = 0,
 ) -> int:
-
     i = 0
     j = 0
     coin_id_x = 0
@@ -69,18 +69,22 @@ def curve_meta_pool(
 
     pool_contract = Contract(token_pool_address)
 
-    return curve_swap_from_pool(pool_contract, account, tokens[0], tokens[1], real_amount_in)
+    return curve_swap_from_pool(
+        pool_contract, account, tokens[0], tokens[1], real_amount_in
+    )
 
 
-def get_curve_swap_price(account: AccountAPI, tokens: list, real_amount_in: int):
+def get_curve_swap_price(account: AccountAPI, tokens: list, real_amount_in: int) -> int:
     meta_pool = get_meta_registry()
     amounts_out = curve_meta_pool(meta_pool, account, tokens, real_amount_in)
+    input_token = project.IERC20.at(tokens[0])
     output_token = project.IERC20.at(tokens[1])
 
     print(
-        f"Tokens swapped {tokens[0]} -> {tokens[1]}: ",
-        amounts_out // (10 ** output_token.decimals()),
+        f"{green}Tokens swapped: {yellow}{real_amount_in // 10 ** input_token.decimals()} {input_token.symbol()} {red}-> {blue}{amounts_out // (10 ** output_token.decimals())} {output_token.symbol()}",
+        reset,
     )
+    return amounts_out
 
 
 def main():
@@ -96,4 +100,4 @@ def main():
         amount_in=amount_in, input_token=tokens[0], output_token=tokens[-1]
     )
 
-    get_curve_swap_price(account, tokens, real_amount_in)
+    amounts_out = get_curve_swap_price(account, tokens, real_amount_in)
